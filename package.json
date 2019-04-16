@@ -4,9 +4,10 @@
   "server": false,
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "test": "",
-    "build": ""
+    "start": "node ./bin/www",
+    "test": "nodemon ./bin/www",
+    "build": "",
+    "start2": "nodemon ./bin/www"
   },
   "dependencies": {
     "accepts": "^1.3.5",
