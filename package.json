@@ -4,7 +4,7 @@
   "server": false,
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon ./bin/www",
     "test": "",
     "build": ""
   },
@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "express": "latest",
-    "nodemon": "^1.17.1",
+    "nodemon": "^1.18.11",
     "rimraf": "^2.6.2"
   },
   "deploy": [

@@ -80,7 +80,7 @@ router.get('/profile/:id' , (req, res) => {
 	Profile.findById(id)
 	.then(profile => {
 		res.json({
-			confirmation: 'success' , 
+			confirmation: 'success', 
 			data: profile
 		})
 	})
