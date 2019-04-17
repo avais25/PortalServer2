@@ -7,6 +7,8 @@ var User        = require('../models/user'); // get the mongoose model
 const Profile = require('../models/Profile')
 var config = require('../config/database');
 var passport	= require('passport');
+const studentsubjects = require('../models/studentsubjects')
+
 
 
 router.get('/profile', (req,res) => {
@@ -32,6 +34,45 @@ router.get('/profile', (req,res) => {
 			message: err.message
 		})
 	})
+})
+
+
+router.get('/studentsubjects',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	const query = req.query
+
+	
+	studentsubjects.find(query)
+	.then(entries => {
+		res.json({
+			confirmation: 'success',
+			data: entries
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	})
+})
+
+
+router.post('/studentsubjects',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	
+	studentsubjects.create(req.body)
+	.then(profile => {
+		res.json({
+			confirmation: 'success' ,
+			data: profile ,
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail' , 
+			message: err.message ,
+		})
+	})
+
 })
 
 //non restful, should be handled using a put

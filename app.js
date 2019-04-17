@@ -10,31 +10,6 @@ const IN_PROD =  "production"
 const mongoose = require("mongoose")
 
 
-//Connecting to the mongodb database(we use mlab)
-// mongoose.connect("mongodb+srv://admin:admin@projectcluster-tf4ng.mongodb.net/test?retryWrites=true", {
-//     useNewUrlParser: true
-// }, function(error){
-// 	if(error){
-// 		console.log(error);
-// 	}
-// 	else{
-// 		console.log("Connected to database");
-// 	}
-// });
- 
-
-// const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb+srv://admin:admin@projectcluster-tf4ng.mongodb.net/test?retryWrites=true";
-// const client = new MongoClient(uri, { useNewUrlParser: true });
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
-//   //client.close();
-// });
-
-
-
-
 const config = {
 	views: 'views', 		// Set views directory 
 	static: 'public', 		// Set static assets directory
