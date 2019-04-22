@@ -13,6 +13,7 @@ const faculties = require('../models/faculties')
 const logins = require('../models/logins')
 const blogCategories = require('../models/blogCategories')
 const blogcomments = require('../models/blogComments')
+const blogposts = require('../models/blogPosts')
 
 
 // router.get('/profile', (req,res) => {
@@ -423,7 +424,7 @@ router.post('/enroll',passport.authenticate('jwt', { session: false}), function(
 	})
 
 
-	//commnet api's
+	//comment api's
 
 	router.get('/comments',passport.authenticate('jwt', { session: false}) , (req,res) => {
 		const query = req.query
@@ -463,5 +464,45 @@ router.post('/enroll',passport.authenticate('jwt', { session: false}), function(
 	
 	})
 
+
+	// blog posts apis
+
+	router.get('/posts',passport.authenticate('jwt', { session: false}) , (req,res) => {
+		const query = req.query
+	
+		
+		blogposts.find(query)
+		.then(entries => {
+			res.json({
+				confirmation: 'success',
+				data: entries
+			})
+		})
+		.catch(err => {
+			res.json({
+				confirmation: 'fail',
+				message: err.message
+			})
+		})
+	})
+	
+	
+	router.post('/posts',passport.authenticate('jwt', { session: false}) , (req,res) => {
+		
+		blogposts.create(req.body)
+		.then(profile => {
+			res.json({
+				confirmation: 'success' ,
+				data: profile ,
+			})
+		})
+		.catch(err => {
+			res.json({
+				confirmation: 'fail' , 
+				message: err.message ,
+			})
+		})
+	
+	})
 
 module.exports = router
