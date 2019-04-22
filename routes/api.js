@@ -8,6 +8,8 @@ const Profile = require('../models/Profile')
 var config = require('../config/database');
 var passport	= require('passport');
 const studentsubjects = require('../models/studentsubjects')
+const students = require('../models/students')
+const faculties = require('../models/faculties')
 
 
 
@@ -36,6 +38,7 @@ router.get('/profile', (req,res) => {
 	})
 })
 
+// Student subject data api's
 
 router.get('/studentsubjects',passport.authenticate('jwt', { session: false}) , (req,res) => {
 	const query = req.query
@@ -171,6 +174,7 @@ router.post('/signup', function(req, res) {
 	}
   });
 
+//authentication api's
 
   router.post('/authenticate', function(req, res) {
 	User.findOne({
@@ -230,7 +234,87 @@ router.post('/signup', function(req, res) {
 	} else {
 	  return null;
 	}
-  };
-  
+	};
+	
+
+	//student table api's
+
+router.get('/students',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	const query = req.query
+
+	
+	students.find(query)
+	.then(entries => {
+		res.json({
+			confirmation: 'success',
+			data: entries
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	})
+})
+
+
+router.post('/students',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	
+	students.create(req.body)
+	.then(profile => {
+		res.json({
+			confirmation: 'success' ,
+			data: profile ,
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail' , 
+			message: err.message ,
+		})
+	})
+
+})
+
+//faculties able api's
+
+router.get('/faculties',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	const query = req.query
+
+	
+	faculties.find(query)
+	.then(entries => {
+		res.json({
+			confirmation: 'success',
+			data: entries
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	})
+})
+
+
+router.post('/faculties',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	
+	faculties.create(req.body)
+	.then(profile => {
+		res.json({
+			confirmation: 'success' ,
+			data: profile ,
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail' , 
+			message: err.message ,
+		})
+	})
+
+})
 
 module.exports = router
