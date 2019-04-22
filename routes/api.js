@@ -10,33 +10,34 @@ var passport	= require('passport');
 const studentsubjects = require('../models/studentsubjects')
 const students = require('../models/students')
 const faculties = require('../models/faculties')
+const logins = require('../models/logins')
 
 
 
-router.get('/profile', (req,res) => {
-	const query = req.query
+// router.get('/profile', (req,res) => {
+// 	const query = req.query
 
-	let filters = req.query
-	if (query.age != null){
-		filters = {
-			age: {$gt: query.age}
-		}
-	}
+// 	let filters = req.query
+// 	if (query.age != null){
+// 		filters = {
+// 			age: {$gt: query.age}
+// 		}
+// 	}
 
-	Profile.find(filters)
-	.then(profiles => {
-		res.json({
-			confirmation: 'success',
-			data: profiles
-		})
-	})
-	.catch(err => {
-		res.json({
-			confirmation: 'fail',
-			message: err.message
-		})
-	})
-})
+// 	Profile.find(filters)
+// 	.then(profiles => {
+// 		res.json({
+// 			confirmation: 'success',
+// 			data: profiles
+// 		})
+// 	})
+// 	.catch(err => {
+// 		res.json({
+// 			confirmation: 'fail',
+// 			message: err.message
+// 		})
+// 	})
+// })
 
 // Student subject data api's
 
@@ -79,82 +80,82 @@ router.post('/studentsubjects',passport.authenticate('jwt', { session: false}) ,
 })
 
 //non restful, should be handled using a put
-router.get('/profile/update', (req,res) => {
-	const query = req.query  //require: id, key=value
-	const profileId = query.id
-	delete query['id']
+// router.get('/profile/update', (req,res) => {
+// 	const query = req.query  //require: id, key=value
+// 	const profileId = query.id
+// 	delete query['id']
 
 
-	Profile.findByIdAndUpdate(profileId, query, {new:true})
-	.then(profile => {
-		res.json({
-			confirmation: 'success',
-			data: profile
-		})
-	})
-	.catch(err => {
-		res.json({
-			confirmation: 'fail',
-			message: err.message
-		})
-	})
-})
+// 	Profile.findByIdAndUpdate(profileId, query, {new:true})
+// 	.then(profile => {
+// 		res.json({
+// 			confirmation: 'success',
+// 			data: profile
+// 		})
+// 	})
+// 	.catch(err => {
+// 		res.json({
+// 			confirmation: 'fail',
+// 			message: err.message
+// 		})
+// 	})
+// })
 
-router.get('/profile/remove', (req,res) => {
-	const query = req.query  //require: id, key=value
+// router.get('/profile/remove', (req,res) => {
+// 	const query = req.query  //require: id, key=value
 
-	Profile.findByIdAndRemove(query.id)
-	.then(data => {
-		res.json({
-			confirmation: 'success',
-			data: 'profile '+query.id+' removed'
-		})
-	})
-	.catch(err => {
-		res.json({
-			confirmation: 'fail',
-			message: err.message
-		})
-	})
-})
+// 	Profile.findByIdAndRemove(query.id)
+// 	.then(data => {
+// 		res.json({
+// 			confirmation: 'success',
+// 			data: 'profile '+query.id+' removed'
+// 		})
+// 	})
+// 	.catch(err => {
+// 		res.json({
+// 			confirmation: 'fail',
+// 			message: err.message
+// 		})
+// 	})
+// })
 
-router.get('/profile/:id' , (req, res) => {
-	const id = req.params.id
+// router.get('/profile/:id' , (req, res) => {
+// 	const id = req.params.id
 
-	Profile.findById(id)
-	.then(profile => {
-		res.json({
-			confirmation: 'success', 
-			data: profile
-		})
-	})
-	.catch(err => {
-		res.json({
-			confirmation: 'fail' , 
-			message: err.message ,
-			textt: 'Profile ' + id + ' not found'
-		})
-	})
-})
+// 	Profile.findById(id)
+// 	.then(profile => {
+// 		res.json({
+// 			confirmation: 'success', 
+// 			data: profile
+// 		})
+// 	})
+// 	.catch(err => {
+// 		res.json({
+// 			confirmation: 'fail' , 
+// 			message: err.message ,
+// 			textt: 'Profile ' + id + ' not found'
+// 		})
+// 	})
+// })
 
 
-router.post('/profile', (req,res) => {
+// router.post('/profile', (req,res) => {
 	
-	Profile.create(req.body)
-	.then(profile => {
-		res.json({
-			confirmation: 'success' ,
-			data: profile ,
-		})
-	})
-	.catch(err => {
-		res.json({
-			confirmation: 'fail' , 
-			message: err.message ,
-		})
-	})
+// 	Profile.create(req.body)
+// 	.then(profile => {
+// 		res.json({
+// 			confirmation: 'success' ,
+// 			data: profile ,
+// 		})
+// 	})
+// 	.catch(err => {
+// 		res.json({
+// 			confirmation: 'fail' , 
+// 			message: err.message ,
+// 		})
+// 	})
 
-})
+// })
 
 router.post('/signup', function(req, res) {
 	if (!req.body.name || !req.body.password) {
@@ -316,5 +317,72 @@ router.post('/faculties',passport.authenticate('jwt', { session: false}) , (req,
 	})
 
 })
+
+
+//login api's
+router.get('/logins',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	const query = req.query
+
+	
+	logins.find(query)
+	.then(entries => {
+		res.json({
+			confirmation: 'success',
+			data: entries
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	})
+})
+
+router.post('/logins', function(req, res) {
+	logins.findOne({
+	  RollNo: req.body.name
+	}, function(err, user) {
+	  if (err) throw err;
+   
+	  if (!user) {
+		res.send({success: false, msg: 'Authentication failed. User not found.'});
+	  } else {
+		// check if password matches
+		user.comparePassword(req.body.password, function (err, isMatch) {
+		  if (isMatch && !err) {
+			// if user is found and password is right create a token
+		//	var token = jwt.encode(user, config.secret);
+			// return the information including token as JSON
+			res.json({success: true, token: 'success'});
+		  } else {
+			res.send({success: false, msg: 'Authentication failed. Wrong password.'});
+		  }
+		});
+	  }
+	});
+  });
+
+
+
+router.post('/enroll', function(req, res) {
+	if (!req.body.name || !req.body.password) {
+	  res.json({success: false, msg: 'Please pass name and password.'});
+	} else {
+	  var newUser = new logins({
+		RollNo: req.body.name,
+		password: req.body.password
+	  });
+	  // save the user
+	  newUser.save(function(err) {
+		if (err) {
+		  return res.json({success: false, msg: 'Already exists.'});
+		}
+		res.json({success: true, msg: 'Successful enrolled'});
+	  });
+	}
+	});
+	
+	
 
 module.exports = router
