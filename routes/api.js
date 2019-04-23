@@ -14,7 +14,8 @@ const logins = require('../models/logins')
 const blogCategories = require('../models/blogCategories')
 const blogcomments = require('../models/blogComments')
 const blogposts = require('../models/blogPosts')
-
+const blogpcategories = require('../models/blogPCategories')
+const blogpostviews = require('../models/blogPostViews')
 
 // router.get('/profile', (req,res) => {
 // 	const query = req.query
@@ -504,5 +505,87 @@ router.post('/enroll',passport.authenticate('jwt', { session: false}), function(
 		})
 	
 	})
+
+// blog posts categories apis
+
+router.get('/postsCat',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	const query = req.query
+
+	
+	blogpcategories.find(query)
+	.then(entries => {
+		res.json({
+			confirmation: 'success',
+			data: entries
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	})
+})
+
+
+router.post('/postsCat',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	
+	blogpcategories.create(req.body)
+	.then(profile => {
+		res.json({
+			confirmation: 'success' ,
+			data: profile ,
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail' , 
+			message: err.message ,
+		})
+	})
+
+})
+
+
+// blog posts views apis
+
+router.get('/postsViews',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	const query = req.query
+
+	
+	blogpostviews.find(query)
+	.then(entries => {
+		res.json({
+			confirmation: 'success',
+			data: entries
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	})
+})
+
+
+router.post('/postsViews',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	
+	blogpostviews.create(req.body)
+	.then(profile => {
+		res.json({
+			confirmation: 'success' ,
+			data: profile ,
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail' , 
+			message: err.message ,
+		})
+	})
+
+})
+
 
 module.exports = router
