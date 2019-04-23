@@ -16,33 +16,8 @@ const blogcomments = require('../models/blogComments')
 const blogposts = require('../models/blogPosts')
 const blogpcategories = require('../models/blogPCategories')
 const blogpostviews = require('../models/blogPostViews')
-
-// router.get('/profile', (req,res) => {
-// 	const query = req.query
-
-// 	let filters = req.query
-// 	if (query.age != null){
-// 		filters = {
-// 			age: {$gt: query.age}
-// 		}
-// 	}
-
-// 	Profile.find(filters)
-// 	.then(profiles => {
-// 		res.json({
-// 			confirmation: 'success',
-// 			data: profiles
-// 		})
-// 	})
-// 	.catch(err => {
-// 		res.json({
-// 			confirmation: 'fail',
-// 			message: err.message
-// 		})
-// 	})
-// })
-
-// Student subject data api's
+const profentries = require('../models/profEntries')
+const studentapp = require('../models/studentApp')
 
 router.get('/studentsubjects',passport.authenticate('jwt', { session: false}) , (req,res) => {
 	const query = req.query
@@ -82,83 +57,6 @@ router.post('/studentsubjects',passport.authenticate('jwt', { session: false}) ,
 
 })
 
-//non restful, should be handled using a put
-// router.get('/profile/update', (req,res) => {
-// 	const query = req.query  //require: id, key=value
-// 	const profileId = query.id
-// 	delete query['id']
-
-
-// 	Profile.findByIdAndUpdate(profileId, query, {new:true})
-// 	.then(profile => {
-// 		res.json({
-// 			confirmation: 'success',
-// 			data: profile
-// 		})
-// 	})
-// 	.catch(err => {
-// 		res.json({
-// 			confirmation: 'fail',
-// 			message: err.message
-// 		})
-// 	})
-// })
-
-// router.get('/profile/remove', (req,res) => {
-// 	const query = req.query  //require: id, key=value
-
-// 	Profile.findByIdAndRemove(query.id)
-// 	.then(data => {
-// 		res.json({
-// 			confirmation: 'success',
-// 			data: 'profile '+query.id+' removed'
-// 		})
-// 	})
-// 	.catch(err => {
-// 		res.json({
-// 			confirmation: 'fail',
-// 			message: err.message
-// 		})
-// 	})
-// })
-
-// router.get('/profile/:id' , (req, res) => {
-// 	const id = req.params.id
-
-// 	Profile.findById(id)
-// 	.then(profile => {
-// 		res.json({
-// 			confirmation: 'success', 
-// 			data: profile
-// 		})
-// 	})
-// 	.catch(err => {
-// 		res.json({
-// 			confirmation: 'fail' , 
-// 			message: err.message ,
-// 			textt: 'Profile ' + id + ' not found'
-// 		})
-// 	})
-// })
-
-
-// router.post('/profile', (req,res) => {
-	
-// 	Profile.create(req.body)
-// 	.then(profile => {
-// 		res.json({
-// 			confirmation: 'success' ,
-// 			data: profile ,
-// 		})
-// 	})
-// 	.catch(err => {
-// 		res.json({
-// 			confirmation: 'fail' , 
-// 			message: err.message ,
-// 		})
-// 	})
-
-// })
 
 router.post('/signup', function(req, res) {
 	if (!req.body.name || !req.body.password) {
@@ -587,5 +485,84 @@ router.post('/postsViews',passport.authenticate('jwt', { session: false}) , (req
 
 })
 
+
+// prof entries apis team 4
+router.get('/profentries',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	const query = req.query
+
+	
+	profentries.find(query)
+	.then(entries => {
+		res.json({
+			confirmation: 'success',
+			data: entries
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	})
+})
+
+
+router.post('/profentries',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	
+	profentries.create(req.body)
+	.then(profile => {
+		res.json({
+			confirmation: 'success' ,
+			data: profile ,
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail' , 
+			message: err.message ,
+		})
+	})
+
+})
+
+
+// student application apis team 4
+router.get('/studentapp',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	const query = req.query
+
+	
+	studentapp.find(query)
+	.then(entries => {
+		res.json({
+			confirmation: 'success',
+			data: entries
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	})
+})
+
+
+router.post('/studentapp',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	
+	studentapp.create(req.body)
+	.then(profile => {
+		res.json({
+			confirmation: 'success' ,
+			data: profile ,
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail' , 
+			message: err.message ,
+		})
+	})
+
+})
 
 module.exports = router
