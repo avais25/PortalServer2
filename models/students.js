@@ -14,6 +14,7 @@ const Students = new mongoose.Schema({
     cpi:  {type:Number , default:0},
     gender:  {type:String , default:'NA'},
     workExp:  {type:Number , default:0},
+    guide:  {type:Number , default:0},
 })
 
 module.exports = mongoose.model('Students',Students)
