@@ -9,7 +9,8 @@ const Faculties = new mongoose.Schema({
     noOfPhd: {type:Number , default:0},
     noOfMtech: {type:Number , default:0},
     noOfBtech: {type:Number , default:0},
-    areaOfWOrk: [String]
+    areaOfWOrk: [String],
+    courses: [String]
 })
 
 module.exports = mongoose.model('Faculties',Faculties)

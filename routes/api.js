@@ -1,10 +1,11 @@
 // Full Documentation - https://www.turbo360.co/docs
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
+// const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
+var faker = require('faker');
 const router = vertex.router()
 var jwt         = require('jwt-simple');
 var User        = require('../models/user'); // get the mongoose model
-const Profile = require('../models/Profile')
+// const Profile = require('../models/Profile')
 var config = require('../config/database');
 var passport	= require('passport');
 const studentsubjects = require('../models/studentsubjects')
@@ -564,5 +565,25 @@ router.post('/studentapp',passport.authenticate('jwt', { session: false}) , (req
 	})
 
 })
+
+router.post('/uds' , (req,res) => {
+	for(var i = 0; i < req.body.i;i++){
+
+	var fake = {
+		name : faker.name.findName(),
+		password : faker.internet.password()
+	}
+
+	User.create(fake)
+}
+
+	res.json({
+		confirmation: 'success' 
+	})
+
+
+})
+
+
 
 module.exports = router
