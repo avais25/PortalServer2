@@ -2,6 +2,7 @@
 // const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
 var faker = require('faker');
+var multiparty = require('multiparty');
 const router = vertex.router()
 var jwt         = require('jwt-simple');
 var User        = require('../models/user'); // get the mongoose model
@@ -19,6 +20,9 @@ const blogpcategories = require('../models/blogPCategories')
 const blogpostviews = require('../models/blogPostViews')
 const profentries = require('../models/profEntries')
 const studentapp = require('../models/studentApp')
+const reports = require('../models/report')
+const teachermeets = require('../models/teacherMeet')
+
 
 router.get('/studentsubjects',passport.authenticate('jwt', { session: false}) , (req,res) => {
 	const query = req.query
@@ -566,8 +570,93 @@ router.post('/studentapp',passport.authenticate('jwt', { session: false}) , (req
 
 })
 
-router.post('/uds' , (req,res) => {
-	for(var i = 0; i < req.body.i;i++){
+
+// report apis team 3
+router.get('/reports',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	const query = req.query
+
+	
+	reports.find(query)
+	.then(entries => {
+		res.json({
+			confirmation: 'success',
+			data: entries
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	})
+})
+
+
+router.post('/reports' ,passport.authenticate('jwt', { session: false}) , (req,res) => {
+
+	reports.create(req.body)
+	.then(profile => {
+		res.json({
+			confirmation: 'success' ,
+			data: profile ,
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail' , 
+			message: err.message ,
+		})
+	})
+	
+
+})
+
+// teacher meet apis team 3
+router.get('/teachermeets',passport.authenticate('jwt', { session: false}) , (req,res) => {
+	const query = req.query
+
+	
+	teachermeets.find(query)
+	.then(entries => {
+		res.json({
+			confirmation: 'success',
+			data: entries
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail',
+			message: err.message
+		})
+	})
+})
+
+
+router.post('/teachermeets' ,passport.authenticate('jwt', { session: false}) ,(req,res) => {
+
+
+	teachermeets.create(req.body)
+	.then(profile => {
+		res.json({
+			confirmation: 'success' ,
+			data: profile ,
+		})
+	})
+	.catch(err => {
+		res.json({
+			confirmation: 'fail' , 
+			message: err.message ,
+		})
+	})
+
+})
+
+
+
+
+//data generator
+router.post('/uds' ,passport.authenticate('jwt', { session: false}) , (req,res) => {
+	for(var i = 0; i < req.body.i	;i++){
 
 	var fake = {
 		name : faker.name.findName(),
