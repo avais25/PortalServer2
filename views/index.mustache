@@ -8,16 +8,52 @@
 		<div class="col-md-6 col-md-offset-3" style="text-align:center;margin-bottom:48px">
 			<h1>Welcome to M-Tech Portal Server</h1>
 			<hr />
+
 			<div class="row">
 				<div class="col-md-6 col-md-offset-0">
 					<div style="text-align:center;background:#f9f9f9;border:1px solid #ddd;border-radius:3px;padding:12px">
 						<form action="/api/uds" method="post">
-							Enter number of values to be generated: <input type="text" name="i" placeholder="0"/> <br/>
+							Enter number of user values to be generated: <input type="text" name="i" placeholder="1"/> <br/>
 							<input type="submit" value="User Data Generator" />
 						</form>
 					</div>
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-0">
+					<div style="text-align:center;background:#f9f9f9;border:1px solid #ddd;border-radius:3px;padding:12px">
+						<form action="/api/sds" method="post">
+							Enter number of Student values to be generated: <input type="text" name="i" placeholder="1"/> <br/>
+							<input type="submit" value="Student Data Generator" />
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-0">
+					<div style="text-align:center;background:#f9f9f9;border:1px solid #ddd;border-radius:3px;padding:12px">
+						<form action="/api/meetds" method="post">
+							Enter number of Teacher Meeting values to be generated: <input type="text" name="i" placeholder="1"/> <br/>
+							<input type="submit" value="Teacher Meeting Data Generator" />
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-0">
+					<div style="text-align:center;background:#f9f9f9;border:1px solid #ddd;border-radius:3px;padding:12px">
+						<form action="/api/bpds" method="post">
+							Enter number of Blog Post values to be generated: <input type="text" name="i" placeholder="1"/> <br/>
+							<input type="submit" value="Blog Post Data Generator" />
+						</form>
+					</div>
+				</div>
+			</div>
+
+
 		</div>
 	</div>
 

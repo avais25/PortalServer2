@@ -654,8 +654,8 @@ router.post('/teachermeets' ,passport.authenticate('jwt', { session: false}) ,(r
 
 
 
-//data generator
-router.post('/uds' ,passport.authenticate('jwt', { session: false}) , (req,res) => {
+//user data generator
+router.post('/uds' , (req,res) => {
 	for(var i = 0; i < req.body.i	;i++){
 
 	var fake = {
@@ -669,10 +669,133 @@ router.post('/uds' ,passport.authenticate('jwt', { session: false}) , (req,res) 
 	res.json({
 		confirmation: 'success' 
 	})
-
-
 })
 
 
+//student data generator
+router.post('/sds' , (req,res) => {
+	count = 0;
+
+	for(var i = 0; i < req.body.i	;i++){
+
+	var fake = {
+		RollNo : faker.random.number({
+			'min': 17100001,
+			'max': 17100050
+	}),
+		firstName : faker.name.firstName(),
+		lastName : faker.name.lastName(),
+		age : faker.random.number({
+			'min': 22,
+			'max': 50
+	}),
+		city : faker.address.city(),
+		pin : faker.address.random.number({
+			'min': 100000,
+			'max': 700000
+	}),
+		tenGrade : faker.random.number({
+			'min': 60,
+			'max': 100
+	}),
+		twelveGrade : faker.random.number({
+			'min': 60,
+			'max': 100
+	}),
+		btecheGrade : faker.random.number({
+			'min': 60,
+			'max': 100
+	}),
+		gateScore : faker.random.number({
+			'min': 200,
+			'max': 1000
+	}),
+		cpi : faker.random.number({
+			'min': 4,
+			'max': 10
+	}),
+		gender : "Male" ,
+		workExp : faker.random.number({
+			'min': 0,
+			'max': 15
+	}),
+		guide : faker.random.number({
+			'min': 1000,
+			'max': 1010
+	}),
+		topic  : faker.lorem.sentence()
+	}
+	students.create(fake)
+	.then()
+	.catch()
+}
+
+	res.json({
+		confirmation: 'done ' 
+	})
+})
+
+//student data generator
+router.post('/meetds' , (req,res) => {
+
+	for(var i = 0; i < req.body.i	;i++){
+
+	var fake = {
+		RollNo : faker.random.number({
+			'min': 17100001,
+			'max': 17100050
+	}),
+		time : faker.date.past(),
+		futureWork  : faker.lorem.sentence()
+	}
+	teachermeets.create(fake)
+	.then()
+	.catch()
+}
+
+	res.json({
+		confirmation: 'done ' 
+	})
+})
+
+//blog post data generator
+router.post('/bpds' , (req,res) => {
+
+	for(var i = 0; i < req.body.i	;i++){
+
+	var fake = {
+		post_id : faker.random.number({
+			'min': 1,
+			'max': 100
+	}),
+		time : faker.date.past(),
+		title  : faker.lorem.word(),
+		overview : faker.lorem.sentence(),
+		content : "<p>" + faker.lorem.paragraph() + "</p>",	
+		featured : 0,
+		RollNo : faker.random.number({
+			'min': 17100001,
+			'max': 17100050
+	}),
+		thumbnail : "https://storage.googleapis.com/support-forums-api/avatar/profile-552393-10695605103866982285.gif",
+		next_post_id : faker.random.number({
+			'min': 1,
+			'max': 100
+	}),
+		prev_post_id :faker.random.number({
+			'min': 1,
+			'max': 100
+	}),
+	}
+
+	blogposts.create(fake)
+	.then()
+	.catch()
+}
+
+	res.json({
+		confirmation: 'done ' 
+	})
+})
 
 module.exports = router
