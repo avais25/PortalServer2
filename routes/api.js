@@ -59,7 +59,9 @@ router.get('/studentsubjects',passport.authenticate('jwt', { session: false}) , 
 					data: entries
 				})
 				console.log("before adding to redis");
-				client.setex ('/studentsubjects' , 30 , JSON.stringify({ confirmation: 'success',
+
+				client.setex ('/studentsubjects' , 30 , JSON.stringify({
+				confirmation: 'success',
 				data: entries}) , function (error) {
 					if (error) {throw error ; };
 				})
@@ -102,6 +104,7 @@ router.post('/studentsubjects',passport.authenticate('jwt', { session: false}) ,
 			confirmation: 'success' ,
 			data: profile ,
 		})
+		client.del ('/studentsubjects')
 	})
 	.catch(err => {
 		res.json({
