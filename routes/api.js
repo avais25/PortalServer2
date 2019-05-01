@@ -9,6 +9,9 @@ var User        = require('../models/user'); // get the mongoose model
 // const Profile = require('../models/Profile')
 var config = require('../config/database');
 var passport	= require('passport');
+var redis = require('redis');
+
+
 const studentsubjects = require('../models/studentsubjects')
 const students = require('../models/students')
 const faculties = require('../models/faculties')
@@ -24,23 +27,70 @@ const reports = require('../models/report')
 const teachermeets = require('../models/teacherMeet')
 
 
+//redis stuff
+
+var client = redis.createClient(6379,'127.0.0.1');
+
+
 router.get('/studentsubjects',passport.authenticate('jwt', { session: false}) , (req,res) => {
 	const query = req.query
 
+	client.get('/studentsubjects' , function(error, reply) {
+		if (error)  {
+			res.json({
+				confirmation: 'fail',
+				message: error.message
+			})
+		};
+		if (reply) {
+			console.log("fetching data in  redis");
+			res.json(
+				JSON.parse(reply)
+			) 
 	
-	studentsubjects.find(query)
-	.then(entries => {
-		res.json({
-			confirmation: 'success',
-			data: entries
-		})
+		}
+		else {
+			console.log("fetching data in  mongo db");
+			studentsubjects.find(query)
+			.then(entries => {
+				
+				res.json({
+					confirmation: 'success',
+					data: entries
+				})
+				console.log("before adding to redis");
+				client.setex ('/studentsubjects' , 30 , JSON.stringify({ confirmation: 'success',
+				data: entries}) , function (error) {
+					if (error) {throw error ; };
+				})
+			})
+			.catch(err => {
+				res.json({
+					confirmation: 'fail',
+					message: err.message
+				})
+			})
+
+
+
+		}
 	})
-	.catch(err => {
-		res.json({
-			confirmation: 'fail',
-			message: err.message
-		})
-	})
+	
+	
+
+	// studentsubjects.find(query)
+	// .then(entries => {
+	// 	res.json({
+	// 		confirmation: 'success',
+	// 		data: entries
+	// 	})
+	// })
+	// .catch(err => {
+	// 	res.json({
+	// 		confirmation: 'fail',
+	// 		message: err.message
+	// 	})
+	// })
 })
 
 
