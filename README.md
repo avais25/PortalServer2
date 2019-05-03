@@ -4,11 +4,17 @@ This project was built as a part of IIT Bombay student portal's Backend.
 
 ## Instructions
 After clone the "cache" brach of this repo. Which containt the redis implementation.
+No need to install mongo locally as we are using cloud based mongo atlas.
 
+
+Install Node.js
 ```
-TURBO_ENV=dev
-SESSION_SECRET=YOUR_SESSION_SECRET
-TURBO_APP_ID=123abc
+sudo apt-get install nodejs
+```
+
+Install Redis
+```
+sudo apt-get install redis-server
 ```
 
 Then run npm install from the root directory:
@@ -17,17 +23,23 @@ Then run npm install from the root directory:
 $ npm install
 ```
 
-To run dev server, install Turbo CLI globally:
+Then run dev server from the root directory:
 
 ```
-$ sudo npm install turbo-cli -g
+$ npm start
 ```
 
-Then run devserver from project root directory:
+To run dev server from the root directory using nodemon:
 
 ```
-$ turbo devserver
+$ npm test
 ```
+To run it on browser, open chome and enter following ip:
+
+```
+http://localhost:3000/
+```
+
 
 To build for production, run build:
 
